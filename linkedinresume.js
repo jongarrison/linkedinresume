@@ -1,5 +1,7 @@
+//Directions:
 //First scroll down to load all sections and then paste the following into the Chrome js console
-
+//Wait for all items to complete, there is a necessary delay as some clicks cause additional loading
+//I needed to adjust the pdf printing scaling settings to make the borders look good (136%)
 
 $('.nav-footer__copyright').scrollTop();
 
@@ -8,17 +10,23 @@ var u = [];
 var hide = function(selector) {
   q.push(function () {
     $(selector).hide();
+    console.log("hid: ", selector);
   });
   undohide(selector);
 };
 var click = function(selector) {
   q.push(function() {
     $(selector).click();
+    console.log("clicked: ", selector);
   });
 };
+var sleep = function() {
+  console.log("pausing for a bit");
+}
 var undohide = function(selector) {
   u.push(function () {
     $(selector).show();
+    console.log("undoing hide: ", selector);
   });
 };
 var runfunction = function(subf) { q.push(subf); };
@@ -28,10 +36,7 @@ var undo = function() {
   }
 };
 
-$('body').css('margin', '-200px 0px 0px 20px');
-$(".pv-top-card-section").css({"margin-top": 110});
-$(".pv-top-card-section__photo-wrapper").css({visibility: 'hidden'});
-
+sleep();
 hide('div#ad-slot-3');
 hide('div#freemium-bg');
 hide('div#header');
@@ -70,6 +75,29 @@ hide("[data-control-name='edit_skills_add']");
 hide(".pv-interests-section");
 hide(".pv-top-card-section__connections");
 hide('.pv-featured-skills-section');
+click(".pv-top-card-section__summary-toggle-button"); //overview more/less show button
+hide(".pv-top-card-section__summary-toggle-button"); //overview more/less show button
+hide(".pv-dashboard-section"); //some sort of profile summary
+hide(".pds-ge-entry-card"); //prompt about current employment
+hide(".profile-background-image"); //top banner background image
+
+click(".pv-profile-section__see-more-inline"); //More experience
+sleep();
+click(".pv-profile-section__see-more-inline"); //and the even More experience
+hide(".pv-profile-section__actions-inline"); //hide the experience actions
+
+hide(".pv-profile-section__header-add-action"); //add education icon
+hide(".pv-profile-section__edit-action"); //edit education icon
+
+hide(".pv-featured-skills-section"); //hiding featured skills section
+
+hide("a:contains('Ask to be recommended')"); //button
+hide(".ivy-tabs-tablist.mb3"); //Recommendation tabs
+
+$('body').css('margin', '-200px 0px 0px 0px');
+$(".pv-content.profile-view-grid.neptune-grid.two-column.ghost-animate-in").css('padding-left', '0px');
+$(".pv-top-card-section").css({"margin-top": 110});
+$(".pv-top-card-section__photo-wrapper").css({visibility: 'hidden'});
 
 
 runfunction(function() {
