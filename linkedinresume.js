@@ -1,3 +1,4 @@
+"use strict";
 //Directions:
 //First scroll down to load all sections and then paste the following into the Chrome js console
 //Wait for all items to complete, there is a necessary delay as some clicks cause additional loading
@@ -5,33 +6,35 @@
 
 $('.nav-footer__copyright').scrollTop();
 
-var q = [];
-var u = [];
-var hide = function(selector) {
+let q = [];
+let u = [];
+let hide = function(selector) {
   q.push(function () {
     $(selector).hide();
     console.log("hid: ", selector);
   });
   undohide(selector);
 };
-var click = function(selector) {
+let click = function(selector) {
   q.push(function() {
     $(selector).click();
     console.log("clicked: ", selector);
   });
 };
-var sleep = function() {
-  console.log("pausing for a bit");
-}
-var undohide = function(selector) {
+let sleep = function() {
+  q.push(function() {
+    console.log("pausing for a bit");
+  });
+};
+let undohide = function(selector) {
   u.push(function () {
     $(selector).show();
     console.log("undoing hide: ", selector);
   });
 };
-var runfunction = function(subf) { q.push(subf); };
-var undo = function() {
-  for (var i = 0; i < u.length; i++ ){
+let runfunction = function(subf) { q.push(subf); };
+let undo = function() {
+  for (let i = 0; i < u.length; i++ ){
     u[i]();
   }
 };
